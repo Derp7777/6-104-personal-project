@@ -1,0 +1,77 @@
+# Problem Statement
+
+## DOMAIN: Communal living. 
+
+Formally, communal living may be defined as the state of living in some building, in which some spaces and resources are shared/communal and others are not, and residents share collective responsibility for these resources and spaces. For example, 5 people living in the same house is communal living, while 5 people living in the same apartment building in individual apartments is not. Even if the apartment building has some shared ammenities, it is not communal living unless the residents collaborate to maintain those ammenities (rather than a landlord).
+
+Communal living need not be among a single 'family'. Residents will generally have separate finances, implicit expectations of privacy and personal property, and so forth. This is in contrast to the implicit expectation that a family unit's assets are owned and shared by all members of the family by default unless negotiated otherwise. In fact, communal living may even take the form of multiple families sharing a household.
+
+In a communal living scenario, the primary stakeholders are the residents. They must maintain upkeep of the residence and its communal resources, such as by cleaning rooms, taking out the trash, interfacing with a landlord, and so forth. To make each others' lives easier, they may choose to pool their time and resources to designate items as 'communal', i.e. intended to benefit any members of the household for use by all residents who wish to use the item(s). For example, one resident might designate their tupperware as communal, another might designate their pots and pans as communal, and another still might purchase disposable items such as paper towels and toilet paper and designate them as communal. This reduces the collective amount of labor the residents have to do in total: forcing every resident to buy their own toilet paper and paper towels requires much more individual labor and is much more logistically complicated. However, communal resources pose logistical challenges in and of themselves.
+
+## BAD SITUATIONS
+
+### Confusion over item status
+It can be difficult for residents to keep track of which items are communal and which are not. As the number of residents grows, the amonut of communication required for uniform understanding grows quadratically. An individual resident may suffer from not realizing that they could be taking advantage of a communal item they don't know is communal, and they may also suffer from another resident or residents erroneously believing some item or items belonging to them are communal when they are not (such that the item is used without permission). 
+
+For example, Alice buys expensive moisturizing tissues that are less irritating on skin when used, and intends for them to be communal. Bob gets sick, but isn't aware that he can use these tissues, so he just uses the cheap packs of pocket tissues he has in his room, causing skin irritation beneath his nose over the course of his illness as he uses the tissues.
+
+For another example, Alice buys paper plates and stores them near the dinnerware, intending to use them on lazy days where she doesn't want to wash a dish after eating. Bob, erroneously assuming them to be communal like the rest of the dinnerware, uses the paper plates regularly unbeknownst to Alice, until no plates remain when she looks to use one, much to her chagrin.
+
+### Immaterial responsibility
+The relationships surrounding the establishment of items as communal are not formally defined. If a particular resident goes out of their way to regularly buy consumable communal items, such as food ingredients, they may feel unduly burdened by the rest of the household and grow resentful. If a particular resident does not contribute communal items but still regularly uses communal items, they may be perceived as a freeloader taking advantage of the generosity of the other residents in the houeshold.
+
+For example, Carol keeps the kitchen stocked with a wide variety of spices and condiments for cooking. She designates them as communal, allowing others in the household to use them, but over time the cost of maintaining the inventory becomes a financial burden, and she laments the lack of recognition of this from her roommates. David, meanwhile, starts to feel like he's not spending enough on communal items for the household in comparison to Carol, and starts haphazardly buying products and making them communal to avoid feeling like a burden or freeloader, even though those products might not be particularly useful to the household. Eventually, Carol simply stops restocking the kitchen, to the detriment of all residents, and nobody takes her place.
+
+### Accounting fatigue
+To avoid the responsibility problem, households often intuitively try to split the costs of communal items equally. This requires significant manual labor in the form of bookkeeping, and can lead to fatigue and interpersonal strain when some household members care more than others: those who care more may feel that the others are insensitive to their financial stress, while those who care less may feel that they're getting nickel-and-dimed by the others.
+
+It is also challenging to keep inventory of communal items, particularly consumable communal items. If an item runs out and needs to be replaced, someone has to take point on tracking the stock of the item and replacing it when it runs out. 
+
+## WORKAROUNDS AND COMPARABLES
+Generally, most households simply allow norms to establish themselves over time without explicit negotiation, unless the established norms cause an experience negative enough for a particular resident to speak out. Individual residents see the economic benefits of permanent communal items (cookware, furniture, etc) and material benefits of temporary communal items (toiletries to improve household hygiene, etc), and naturally approach them with minimal explicit planning or negotiation. Eventually, some conflict around communal items may arise (accidental use of a non-communal item, some residents taking on significantly more responsibility for managing and acquiring communal items than others, economic pain from costs of communal items not being distributed amongst residents, fatigue from tracking the status of items and reimbursements, etc), which in the worst case may lead to rifts in the household and decreased cooperation and trust. The 'workaround' is to simply hope that nothing bad happens and the positive status quo from the emergent norms is productive and maintained. 
+
+Some apps, such as Splitwise, can alleviate some of the bad situations, such as by making bookkeeping and reimbursement easier. Splitwise in particular has the following shortcomings:
+- The app is focused around one-time costs
+- The app is designed around individual users having complex economic relationships with other users in a graph that may not necessarily be dense
+- The app is not designed for household use or communal living, so it does not address the following bad situations:
+  - Confusion over item status: in Splitwise, every interaction is reduced to a single purchase/expense, without addressing the purpose of those purchases in a directed way. A communal item that was not a recent purchase may be forgotten. If a consumable communal item is consumed, there is no mechanism to document its absence. 
+  - Inventory fatigue: there is no way to designate responsibility for a purchase until after the purchase is made. Keeping items stocked remains a chore of volition, and can easily be forgotten. The app does not address the challenge of keeping inventory of items at all, only purchases.
+  - Immaterial responsibility: the cost of a purchase must be divided between individuals the moment that purchase is registered. There is no simple mechanism for allowing people to later decide to take on a greater or lesser portion of the purchase, because all accounting is immediate. Responsibility must be determined in order for the purchase to be documented and marked for reimbursement, requiring synchronous communication for what should be an asynchronous chore or unsatisfying compromises in cost splitting that bypass the need for immediate communication.
+
+## CORROBORATION
+Evidence for these bad situations is mostly anecdotal, based on firsthand testimony and personal experience. However, some social media posts discuss relevant issues: 
+- https://www.reddit.com/r/badroommates/comments/1ae0peu/roommate_wants_to_nickel_and_dime_on_shared/
+- https://www.facebook.com/groups/684980879834434/posts/1170636721268845/
+- https://www.psychologytoday.com/us/blog/social-instincts/202504/2-signs-youre-the-cinderella-roommate
+
+## SOLUTION SKETCH
+### CONCEPT: Stakepaying
+Under mutual agreement, all *n* residents agree that whenever a communal item is purchased or otherwise applied to the household, they implicitly may be responsible for up to 1/*n*th of the price. Any resident may, for any reason, decide to take responsibility for a greater share of the price: perhaps they feel they will get more benefit out of the communal item than others, or they want to take on more burden out of kindness, empathy, guilt, or any other reason. Any resident may also disown any communal item when this responsibility is being allocated, distributing their burden amongst remaining residents and forfeiting their right to use the item as communal at any point in the future. Items may also be marked as needing a refill, to ease inventory management.
+
+Example: Alice, Bob, Carol, and David cohabit a residence. The concept is applied as follows:
+
+Alice buys a vacuum cleaner and designates it as communal. All residents pay 25% of the cost, and all residents use the item.
+
+Bob buys a bottle of Frank's RedHot sauce and designates it as communal. Carol does not eat spicy food, so she disowns the hot sauce. Alice, Bob, and David each pay 33% of the cost, and only they use the item.
+
+Alice sees the hot sauce is almost gone, so she marks it as needing a refill. David sees this, and buys a bottle while out shopping. The arrangement for the old bottle of hot sauce is reused for the refill, so Alice, Bob, and David each pay 33% of the cost, and only they use the item.
+
+Carol buys an air fryer and designates it as communal. However, she wants to own it for herself and have the ability to take it with her on trips, so she decides to take on the entirety of the cost herself after negotiating the terms of use with the other residents. Carol pays 100% of the cost, and all residents use the item, except when Carol takes it away from the house while she travels.
+
+David feels guilty for not contributing as much to the household as he feels he should. He sees Alice has recently purchased soap, toilet paper, and paper towels to replenish the bathrooms. He decides to pay 40% of the cost of the items, to assuage his guilt and show his appreciation of his housemates. David pays 40% of the cost, and Alice, Bob, and Carol each pay 20% of the cost, and all residents use the items. 
+
+The benefits of such a system are clear. As an added bonus, any tool used to track the paid stakes of communal items necessarily resolves confusion over what items are communal to the household: anything tracked is necessarily communal and can be used without fear, and anything not tracked may not be communal and use must be negotiated with the owner of the item.
+
+Note that this only change of behavior *required* by this system is that of the residents acquiring items. When acquiring communal items, they must register those with whatever tool manages this system. If all other residents take no action, they are implicitly responsible for 1/*n*th of the items' cost, and will have those costs levied on them alongside the costs normally levied on them as members of the household (i.e. rent). Acquiring duplicate items (such as refilling a consumable communal item) can further decrease friction by automatically using the allocations used for the last item. 
+
+Friction may be decreased through mechanisms to make data entry easier. For example, an application implementing this concept could take advantage of the following:
+- Prices could be read via OCR from photos
+- Product information could be obtained through barcode scanning (UPC lookup), also read by photo
+- Fields other than name and price can be autofilled or left blank without compromising the functionality of the concept
+- Fields with values common among multiple items could be selected via dropdown/autofill (eg 'location in house' could automatically choose between 'kitchen', 'bathroom', etc)
+
+
+
+
+
+
