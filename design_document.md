@@ -283,3 +283,14 @@ No other reactions are needed for the system: no action in the system needs to h
 
 ### UI Mockup
 A UI sketch can be found at [ui-mockup.pdf](ui-mockup.pdf)
+
+
+
+
+## User Journey
+
+Alice and her household recently started using Communal Item Tracker, to better track their communal items and their purchases thereof. She buys a pack of toilet paper and a crate of tissues, and registers them on the platform, and she buys a loaf of banana bread on a whim on her way back. She really likes banana bread, but she doesn't want to keep it all to herself, so she decides to designate it as communal but claim a 50% share, while leaving the other 2 items on their default shares. She is now owed $26 by the household: $10 for banana bread (which cost $20), $10 for tissues (which cost $15), and $6 for toilet paper (which cost $9). She notes on the platform where they all are in the house, so her housemates can find them at their leisure and use them once they check the platform. 
+
+The next day, she falls ill, and realizes she'll be using the bulk of the tissues, and decides to claim a 66% share of them rather than 33%, so she now is owed $21 instead. A couple days later, she asks her housemates to make her whole. Carol had earlier moved to a 0% share of the toilet paper, since she is a divine being who has no bowels and no need of a toilet, meaning that Alice was owed $19.50 (as she now has a 50% share of the TP instead of 33%), with Carol owing her $5 for the banana bread and $2.50 for the tissues and Bob owing her $5 for the banana bread, $2.50 for the issues, and $4.50 for the toilet paper. Bob pays her $12 and Carol pays her $7.50, and all debts are resolved.
+
+
