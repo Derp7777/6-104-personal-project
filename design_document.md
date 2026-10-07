@@ -95,7 +95,12 @@ Scan barcodes to autofill information about what you're buying, making it nearly
 **concept** stakepaying \
 **purpose** track communal items, track who paid how much for each \
 **principle** users register items as communal, \
-         and 
-**dkjfhkd** sdfj \
-	skjdhfkds \
-	kdjshkd
+              and claim shares of their costs
+**state** a set of Items with \
+  a String name \
+  a Number price \
+  a set of Shares shares \
+  a Number UUID \
+  a set of Attributes attributes \
+a set of Shares with
+
