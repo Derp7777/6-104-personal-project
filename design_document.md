@@ -92,9 +92,10 @@ Scan barcodes to autofill information about what you're buying, making it nearly
 # Concept Design
 
 
-**concept** 	stakepaying \
-**purpose** 	track communal items, track who paid how much for each \
-**principle**  	ljdsjk \
-**dkjfhkd**	sdfj \
+**concept** stakepaying \
+**purpose** track communal items, track who paid how much for each \
+**principle** users register items as communal, \
+         and 
+**dkjfhkd** sdfj \
 	skjdhfkds \
 	kdjshkd
