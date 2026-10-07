@@ -137,8 +137,49 @@ A note on Attributes: they're not restricted because the concepts don't require 
 - various attributes storing product metadata that might be automatically retrieved from some UPC lookup, or some other source of metadata about the item
 
 
+We take cryptographically secure Hashing for granted as a primitive concept that need not be defined
+
 ```
-**concept** StakePaying [ItemTracking] 
+**concept** UserData [Hashing]
+**purpose** authenticate users and store information about them
+**principle** users authenticate with a username and password, and perform actions that are logged
+**state** 
+a set of Users with
+	a String user
+	a Number outstandingBalance
+	a Boolean deleted // users cannot actually be deleted, because stale references would cause too many problems
+	a Hash password
+a set of Logs with
+	an Action action
+	a Time time
+	a User user
+**actions**
+	registerUser(name: String, password: String) : return (user: User)
+		**where** no user in Users has user name
+		**then** 
+			create a new User with user name, outstandingBalance 0, and password Hashing.hash(password)
+			return the User with user name as user
+	authenticateUser(name: String, password: String) : return (user: User)
+		**where** there exists a user in Users where user.name = name and user.password = Hashing.hash(password)
+		**then** return that user as user
+	deleteUser(user: User)
+		**then**
+			set user.deleted to true
+	performAction(name: String, password: String, action: Action)
+		**where** authenticateUser(name, password) returns a User user
+		**then**
+			perform Action action
+			create a Log with:
+				action action
+				time the current time (at which the action was performed)
+				user user
+```
+A note on Logs: one expected use case is checking whenever a Log notes an action involving users other than the user performing the action, in order to allow those users to be notified. For example, setStakeIndividual run by a user other than the one for whom a stake is being set. 
+
+Actions are not restricted in terms of which user can perform which actions in and of themselves, because Users cannot fundamentally be in any sort of adversarial relationship with each other without deprecating the system: the presence of a bad actor in the household makes the use of communal items generally infeasible in the first place. The primary purpose of authentication is just to track *who* does what for accountability, and to make sure that random people (anyone who is not part of the household) cannot haphazardly affect the system.
+
+```
+**concept** StakePaying [ItemTracking, UserData] 
 **purpose** track who is to pay how much for each item, how much money each user owes or is owed
 **principle** users register items as communal, 
               and claim shares of their costs
@@ -151,10 +192,6 @@ a set of Shares with
 	a User user
 	a Number percentage
 	a Boolean manual
-a set of Users with
-	a String user
-	a Number outstandingBalance
-	a Boolean deleted
 **actions**
 	registerItem(name: String, price: Number, attributes: Set<Attributes>, fronter?: User) : return (item: Item)
 		**where** fronter exists in Users or price is 0
@@ -196,11 +233,6 @@ a set of Users with
 				decrease user.outstandingBalance by item.price * (percentageDiff / n)
 				increase share.percentage by percentageDiff / n
 			
-	registerUser(name: String) : return (user: User)
-		**then**
-			**where** no user in Users has user name
-			**then** create a new User with user name and outstandingBalance 0
-			return the User with user name as user
 	updateItemPrice(item: Item, price: Number) : return (item: Item)
 		**then**
 			increase item.fronter.outstandingBalance by item.price
@@ -222,7 +254,6 @@ a set of Users with
 				for every share in item.shares:
 					decrease share.user.outstandingBalance by item.price * share.percentage
 			call ItemTracking.deleteItem(item)
-	deleteUser(user: User)
-		**then**
-			set user.deleted to true
 ```
+
+
