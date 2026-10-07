@@ -91,16 +91,138 @@ Scan barcodes to autofill information about what you're buying, making it nearly
 
 # Concept Design
 
+```
+**concept** ItemTracking
+**purpose** track the status of communal items
+**principle** users register items as communal, and note information about them
+**state** 
+a set of Items with
+	a String name 
+	a Number price 
+	a Number uuid
+	a set of Attributes attributes
+a set of Attributes with
+	a String key
+	a String value
+**actions**
+	registerItem(name: String, price: Number, attributes: Set<Attributes>) : return (item: Item)
+		**then**
+			create a new Item item with the following properties:
+				name name
+				price price
+				some uuid not used by any other Item in Items
+				attributes attributes
+			return item as item
+	updateItem(item: Item, name?: String, attributes?: Set<Attributes>) : return (item: Item)
+		**where** name is set
+		**then** set item.name to name
+		**where** attributes is set
+		**then** set item.attributes to attributes
+		return the Item as item
+	updateItemAttribute(item: Item, attribute: Attribute) : return (item: Item)
+		**then**
+			set item.attributes[attribute] to attribute
+			return item as item
+	getItem(uuid: Number) : return (item: Item)
+		**where** an Item with uuid uuid exists
+		**then** return that Item as item
+	deleteItem(item: Item)
+		**then** delete the item
+		
+```
+A note on Attributes: they're not restricted because the concepts don't require them to be, but some features that might make use of attributes could include:
+- a "needs refill" attribute, that when set to true indicates to the users that the item is almost or fully consumed and a new one needs to be bought
+- a "location" attribute, indicating where in the house the item is stored
+- a "picture" attribute, storing a picture of the item (perhaps as a URL or as base64)
+- various attributes storing product metadata that might be automatically retrieved from some UPC lookup, or some other source of metadata about the item
 
-**concept** stakepaying \
-**purpose** track communal items, track who paid how much for each \
-**principle** users register items as communal, \
+
+```
+**concept** StakePaying [ItemTracking] 
+**purpose** track who is to pay how much for each item, how much money each user owes or is owed
+**principle** users register items as communal, 
               and claim shares of their costs
-**state** a set of Items with \
-  a String name \
-  a Number price \
-  a set of Shares shares \
-  a Number UUID \
-  a set of Attributes attributes \
+**state** 
+a set of Items with
+	inheritance of all properties and methods as defined in ItemTracking
+	a set of Shares shares 
+	a User|None fronter 
 a set of Shares with
-
+	a User user
+	a Number percentage
+	a Boolean manual
+a set of Users with
+	a String user
+	a Number outstandingBalance
+	a Boolean deleted
+**actions**
+	registerItem(name: String, price: Number, attributes: Set<Attributes>, fronter?: User) : return (item: Item)
+		**where** fronter exists in Users or price is 0
+		**then** 
+			create a new Item item with ItemTracking.registerItem(name, price, attributes)
+			let n represent the number of existing Users for whom user.deleted is false
+			set item.shares to a set of Shares shares containing n shares, where each share contains:
+				an existing User user that none of the other Shares in shares use for whom user.deleted is false
+				percentage 100%/n
+				manual false
+			set item.fronter to fronter
+			**where** price is not 0
+			**then** 
+				decrease fronter's outstandingBalance by price - price/n
+				increase the outstandingBalance of every user that is not fronter by price/n
+			return this Item as item
+	setStake(item: Item, shares: Set<Shares>)
+		**where** item's price is not 0 
+		and no two Shares in shares have the same user
+		and the sum of share.percentage for every share in shares is 100%
+		and share.percentage is positive for every share in shares
+		**then** 
+			for every share in item.shares:
+				decrease share.user.outstandingBalance by item.price * share.percentage
+			for every share in shares:
+				increase share.user.outstandingBalance by item.price * share.percentage
+			set item.shares to shares
+	setStakeIndividual(item: Item, share: Share, user: User)
+		**where** item's price is not 0
+		and the sum of share.percentage for every share in item.shares where share.manual is false is less than share.percentage
+		and share.percentage is positive
+		**then**
+			let n represent the number of shares in item.shares where share.manual is false
+			let shareOldPercentage represent the share in item.shares where share/user is user, or 0 if no such share exists
+			let percentageDiff equal share.percentage - shareOldPercentage
+			increase user.outstandingBalance by item.price * percentageDiff
+			set item.shares[getter(user = user)] to share 
+			for every share in item.shares where share.manual is false and share.user is not user:
+				decrease user.outstandingBalance by item.price * (percentageDiff / n)
+				increase share.percentage by percentageDiff / n
+			
+	registerUser(name: String) : return (user: User)
+		**then**
+			**where** no user in Users has user name
+			**then** create a new User with user name and outstandingBalance 0
+			return the User with user name as user
+	updateItemPrice(item: Item, price: Number) : return (item: Item)
+		**then**
+			increase item.fronter.outstandingBalance by item.price
+			for every share in item.shares:
+				decrease share.user.outstandingBalance by item.price * share.percentage
+			set item.price to price
+			decrease item.fronter.outstandingBalance by item.price
+			for every share in item.shares:
+				increase share.user.outstandingBalance by item.price * share.percentage
+			return the Item as item
+	makePayment(payer: User, payee: User, amount: Number)
+		**then** 
+			decrease payer.outstandingBalance by amount
+			increase payee.outstandingBalance by amount
+	deleteItem(item: Item, refund: Boolean)
+		**then**
+			**where** refund is true
+			**then**
+				for every share in item.shares:
+					decrease share.user.outstandingBalance by item.price * share.percentage
+			call ItemTracking.deleteItem(item)
+	deleteUser(user: User)
+		**then**
+			set user.deleted to true
+```
