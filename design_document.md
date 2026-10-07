@@ -278,3 +278,8 @@ a set of Shares with
 Note: action may be ANY action defined in UserData, ItemTracking, or StakePaying. Any user can perform any action at any time. New Users can only be created by existing Users. Any User can delete any User. However, users can only call actions with arguments they have access to: Users cannot perform actions as other users becaues they cannot know the password that creates another User's hash, and Users cannot delete logs to conceal any action they have done because there is no way to access them (as auditLogs creates copies that will not do anything permanent if passed to deleteLog). This should be sufficient accountability to prevent and detect malfeasance within the system.
 
 No other reactions are needed for the system: no action in the system needs to happen without direct user input. A sysadmin may manually create the first user, or manually call deleteLogs, neither of which need a reaction to be defined. All other actions in the system should happen because of a user performing some input, and the set of possible inputs a user can produce/know encompasses all actions in the system as described in the preceding paragraph.
+
+
+
+### UI Mockup
+A UI sketch can be found at [ui-mockup.pdf](ui-mockup.pdf)
