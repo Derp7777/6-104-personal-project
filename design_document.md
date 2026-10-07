@@ -126,6 +126,8 @@ a set of Attributes with
 	getItem(uuid: Number) : return (item: Item)
 		**where** an Item with uuid uuid exists
 		**then** return that Item as item
+	listAllitems() : return (items: Set<Items>)
+		**then** return the set of Items as items
 	deleteItem(item: Item)
 		**then** delete the item
 		
@@ -163,16 +165,26 @@ a set of Logs with
 		**where** there exists a user in Users where user.name = name and user.password = Hashing.hash(password)
 		**then** return that user as user
 	deleteUser(user: User)
-		**then**
-			set user.deleted to true
-	performAction(name: String, password: String, action: Action)
-		**where** authenticateUser(name, password) returns a User user
+		**where** user.deleted is false
+		**then** set user.deleted to true
+	undeleteUser(user: User)
+		**where** user.deleted is true
+		**then** set user.deleted to false
+	performAction(user: User, action: Action)
 		**then**
 			perform Action action
 			create a Log with:
 				action action
 				time the current time (at which the action was performed)
 				user user
+	deleteLog(log: Log)
+		**then** delete log from the set of Logs
+	auditLogs(startTime: Time, endTime: Time) : return (logs: Set<Logs>)
+		**then**
+			create an empty set of Logs logsRet
+			for each log in the global set of Logs:
+				if log.time is between startTime and endTime, then make a copy of it and add that copy to logsRet
+			return logsRet as logs
 ```
 A note on Logs: one expected use case is checking whenever a Log notes an action involving users other than the user performing the action, in order to allow those users to be notified. For example, setStakeIndividual run by a user other than the one for whom a stake is being set. 
 
@@ -256,4 +268,13 @@ a set of Shares with
 			call ItemTracking.deleteItem(item)
 ```
 
+```
+**reactions**
+	**when** Request.authenticateUser(name, password, action)
+	**then** 
+		**where** UserData.authenticateUser(name, password) returns User user
+		**then** UserData.performAction(user, action)
+```
+Note: action may be ANY action defined in UserData, ItemTracking, or StakePaying. Any user can perform any action at any time. New Users can only be created by existing Users. Any User can delete any User. However, users can only call actions with arguments they have access to: Users cannot perform actions as other users becaues they cannot know the password that creates another User's hash, and Users cannot delete logs to conceal any action they have done because there is no way to access them (as auditLogs creates copies that will not do anything permanent if passed to deleteLog). This should be sufficient accountability to prevent and detect malfeasance within the system.
 
+No other reactions are needed for the system: no action in the system needs to happen without direct user input. A sysadmin may manually create the first user, or manually call deleteLogs, neither of which need a reaction to be defined. All other actions in the system should happen because of a user performing some input, and the set of possible inputs a user can produce/know encompasses all actions in the system as described in the preceding paragraph.
