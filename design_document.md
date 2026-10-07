@@ -71,7 +71,30 @@ Friction may be decreased through mechanisms to make data entry easier. For exam
 - Fields with values common among multiple items could be selected via dropdown/autofill (eg 'location in house' could automatically choose between 'kitchen', 'bathroom', etc)
 
 
+# Application Pitch 
+
+## Communal Item Tracker
+
+Communal Item Tracker makes it less hard for groups of several housemates to keep track of communal items.
+
+### Key Features
+
+1. Item Tracking
+Communal Item Tracker is a single source of truth for your household's communal items. Track what's communal, where it's stored in the house, what it looks like, who owns it (if applicable), and how much it cost.
+
+2. Cost splitting
+Bookkeeping without the guilt. Track how much everyone owes or is owed while splitting the cost of communal items you buy. Split everything equally by default, claim more or less of whatever you want whenever you want. Claim 100% of the crock pot you want to take with you when you move out, and 40% of the eggs if you eat more of them than everyone else, and 0% of the milk if you're lactose intolerant. 
+
+3. Information Autofill
+Scan barcodes to autofill information about what you're buying, making it nearly effortless to track what you buy.
 
 
+# Concept Design
 
 
+**concept** 	stakepaying \
+**purpose** 	track communal items, track who paid how much for each \
+**principle**  	ljdsjk \
+**dkjfhkd**	sdfj \
+	skjdhfkds \
+	kdjshkd
