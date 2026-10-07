@@ -91,6 +91,7 @@ Scan barcodes to autofill information about what you're buying, making it nearly
 
 # Concept Design
 
+## ItemTracking
 ```
 **concept** ItemTracking
 **purpose** track the status of communal items
@@ -138,6 +139,8 @@ A note on Attributes: they're not restricted because the concepts don't require 
 - a "picture" attribute, storing a picture of the item (perhaps as a URL or as base64)
 - various attributes storing product metadata that might be automatically retrieved from some UPC lookup, or some other source of metadata about the item
 
+
+## UserData
 
 We take cryptographically secure Hashing for granted as a primitive concept that need not be defined
 
@@ -189,6 +192,8 @@ a set of Logs with
 A note on Logs: one expected use case is checking whenever a Log notes an action involving users other than the user performing the action, in order to allow those users to be notified. For example, setStakeIndividual run by a user other than the one for whom a stake is being set. 
 
 Actions are not restricted in terms of which user can perform which actions in and of themselves, because Users cannot fundamentally be in any sort of adversarial relationship with each other without deprecating the system: the presence of a bad actor in the household makes the use of communal items generally infeasible in the first place. The primary purpose of authentication is just to track *who* does what for accountability, and to make sure that random people (anyone who is not part of the household) cannot haphazardly affect the system.
+
+## StakePaying
 
 ```
 **concept** StakePaying [ItemTracking, UserData] 
