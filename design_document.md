@@ -287,7 +287,7 @@ A UI sketch can be found at [ui-mockup.pdf](ui-mockup.pdf)
 
 
 
-## User Journey
+# User Journey
 
 Alice and her household recently started using Communal Item Tracker, to better track their communal items and their purchases thereof. She buys a pack of toilet paper and a crate of tissues, and registers them on the platform, and she buys a loaf of banana bread on a whim on her way back. She really likes banana bread, but she doesn't want to keep it all to herself, so she decides to designate it as communal but claim a 50% share, while leaving the other 2 items on their default shares. She is now owed $26 by the household: $10 for banana bread (which cost $20), $10 for tissues (which cost $15), and $6 for toilet paper (which cost $9). She notes on the platform where they all are in the house, so her housemates can find them at their leisure and use them once they check the platform. 
 
