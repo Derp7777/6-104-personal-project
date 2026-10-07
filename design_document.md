@@ -127,7 +127,7 @@ a set of Attributes with
 	getItem(uuid: Number) : return (item: Item)
 		**where** an Item with uuid uuid exists
 		**then** return that Item as item
-	listAllitems() : return (items: Set<Items>)
+	listAllItems() : return (items: Set<Items>)
 		**then** return the set of Items as items
 	deleteItem(item: Item)
 		**then** delete the item
@@ -225,6 +225,9 @@ a set of Shares with
 				decrease fronter's outstandingBalance by price - price/n
 				increase the outstandingBalance of every user that is not fronter by price/n
 			return this Item as item
+	registerDuplicateItem(item: Item, price:? Number, attributes?: Set<Attributes>, fronter?: User) : return (item: Item)
+		**where** fronter exists in Users or price is 0
+		**then** return registerItem(item.name, price ?? item.price, attributes ?? item.attributes, fronter ?? item.fronter)
 	setStake(item: Item, shares: Set<Shares>)
 		**where** item's price is not 0 
 		and no two Shares in shares have the same user
@@ -239,7 +242,6 @@ a set of Shares with
 	setStakeIndividual(item: Item, share: Share, user: User)
 		**where** item's price is not 0
 		and the sum of share.percentage for every share in item.shares where share.manual is false is less than share.percentage
-		and share.percentage is positive
 		**then**
 			let n represent the number of shares in item.shares where share.manual is false
 			let shareOldPercentage represent the share in item.shares where share/user is user, or 0 if no such share exists
@@ -247,7 +249,7 @@ a set of Shares with
 			increase user.outstandingBalance by item.price * percentageDiff
 			set item.shares[getter(user = user)] to share 
 			for every share in item.shares where share.manual is false and share.user is not user:
-				decrease user.outstandingBalance by item.price * (percentageDiff / n)
+				decrease share.user.outstandingBalance by item.price * (percentageDiff / n)
 				increase share.percentage by percentageDiff / n
 			
 	updateItemPrice(item: Item, price: Number) : return (item: Item)
@@ -266,12 +268,15 @@ a set of Shares with
 			increase payee.outstandingBalance by amount
 	deleteItem(item: Item, refund: Boolean)
 		**then**
-			**where** refund is true
+			**where** refund is true and item.fronter exists and price is not 0
 			**then**
 				for every share in item.shares:
 					decrease share.user.outstandingBalance by item.price * share.percentage
+				increase item.fronter.outstandingBalance by item.price
 			call ItemTracking.deleteItem(item)
 ```
+Note: `manual` is typically set to true when `setStake` and `setStakeIndividual` are called, but the user could choose to not designate a changed stage as manual, so it could continue to be adjusted by future calls. Updating the variable is intentionally omitted from the spec, since it would be updated when the user defines the new share that will update the old share or shares.
+
 
 ```
 **reactions**
